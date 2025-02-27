@@ -14,4 +14,7 @@ export class CreateTodoItemDto {
     default: false,
   })
   completed?: boolean;
+
+  @ApiProperty({ description: '所属用户ID' })
+  userId: number;
 }

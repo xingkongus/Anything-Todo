@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TodoItem } from './entities/todo-item.entity';
 import { CreateTodoItemDto } from './dto/create-todo-item.dto';
+import { UsersService } from '../users/users.service';
 import { UpdateTodoItemDto } from './dto/update-todo-item.dto';
 
 @Injectable()
@@ -10,16 +11,35 @@ export class TodoItemService {
   constructor(
     @InjectRepository(TodoItem)
     private todoItemRepository: Repository<TodoItem>,
-  ) {}
+    private usersService: UsersService,
+  ) { }
 
-  // 使用 repository 方法进行数据库操作
-  create(createTodoItemDto: CreateTodoItemDto) {
-    const todoItem = this.todoItemRepository.create(createTodoItemDto);
+  async create(createTodoItemDto: CreateTodoItemDto, userId: number) {
+    const user = await this.usersService.findOne(userId);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const todoItem = this.todoItemRepository.create({
+      ...createTodoItemDto,
+      user,
+    });
+
     return this.todoItemRepository.save(todoItem);
   }
+  
 
   findAll() {
-    return this.todoItemRepository.find();
+    return this.todoItemRepository.find({
+      relations: ['user'],
+    });
+  }
+
+  findByUser(userId: number) {
+    return this.todoItemRepository.find({
+      where: { user: { id: userId } },
+      relations: ['user'],
+    });
   }
 
   findOne(id: number) {

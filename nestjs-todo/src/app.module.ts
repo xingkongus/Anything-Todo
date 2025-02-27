@@ -5,6 +5,8 @@ import { TodoItem } from './todo-item/entities/todo-item.entity';
 import { TodoItemModule } from './todo-item/todo-item.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsersModule } from './users/users.module';
+import { User } from './users/entities/user.entity';
 
 @Module({
   imports: [
@@ -20,12 +22,13 @@ import { AppService } from './app.service';
         username: configService.get('DATABASE_USER'),
         password: configService.get('DATABASE_PASSWORD'),
         database: configService.get('DATABASE_NAME'),
-        entities: [TodoItem],
+        entities: [TodoItem, User],
         synchronize: true, // 注意：生产环境不建议使用
       }),
       inject: [ConfigService],
     }),
     TodoItemModule,
+    UsersModule,
     // ... 其他模块
   ],
   providers: [AppService],

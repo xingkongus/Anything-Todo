@@ -16,7 +16,8 @@ export class TodoItemController {
     @ApiResponse({ status: HttpStatus.CREATED, description: '待办事项创建成功', type: TodoItem })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: '无效的请求参数' })
     create(@Body() createTodoItemDto: CreateTodoItemDto) {
-        return this.todoItemService.create(createTodoItemDto);
+        console.log('createTodoItemDto', createTodoItemDto)
+        return this.todoItemService.create(createTodoItemDto, createTodoItemDto.userId);
     }
 
     @Get()

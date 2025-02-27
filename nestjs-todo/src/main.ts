@@ -11,6 +11,7 @@ async function bootstrap() {
     .setDescription('Todo 应用的 API 文档')
     .setVersion('1.0')
     .addTag('todo-items')
+    .addTag('users')
     .build();
   
   const document = SwaggerModule.createDocument(app, config);
