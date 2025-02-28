@@ -12,9 +12,9 @@ export class TodoItem {
   @Column()
   title: string;
 
-  // @ApiProperty({ description: '待办事项描述' })
-  // @Column({ nullable: true })
-  // description: string;
+  @ApiProperty({ description: '待办事项描述' })
+  @Column({ nullable: true })
+  description: string;
 
   @ApiProperty({ description: '是否完成' })
   @Column({ default: false })

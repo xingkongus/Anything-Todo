@@ -97,3 +97,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+## 数据库迁移命令
+
+`npx typeorm-ts-node-commonjs migration:revert -d ./src/data-source.ts`

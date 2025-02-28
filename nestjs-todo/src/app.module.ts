@@ -23,7 +23,9 @@ import { User } from './users/entities/user.entity';
         password: configService.get('DATABASE_PASSWORD'),
         database: configService.get('DATABASE_NAME'),
         entities: [TodoItem, User],
-        synchronize: true, // 注意：生产环境不建议使用
+        synchronize: false, // 注意：生产环境不建议使用
+        migrations: [__dirname + '/migrations/*.ts'],
+        migrationsRun: true,
       }),
       inject: [ConfigService],
     }),
