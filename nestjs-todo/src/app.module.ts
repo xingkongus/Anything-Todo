@@ -7,6 +7,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
+import { APP_FILTER } from '@nestjs/core';
+import { BusinessExceptionFilter } from './common/filters/business-exception.filter';
+import { BadRequestExceptionFilter } from './common/filters/badrequest-exception.filter';
 
 @Module({
   imports: [
@@ -33,7 +36,17 @@ import { User } from './users/entities/user.entity';
     UsersModule,
     // ... 其他模块
   ],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: BadRequestExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: BusinessExceptionFilter,
+    }
+  ],
   controllers: [AppController],
 })
 export class AppModule {}

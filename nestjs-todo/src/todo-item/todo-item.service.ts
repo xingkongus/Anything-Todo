@@ -5,6 +5,7 @@ import { TodoItem } from './entities/todo-item.entity';
 import { CreateTodoItemDto } from './dto/create-todo-item.dto';
 import { UsersService } from '../users/users.service';
 import { UpdateTodoItemDto } from './dto/update-todo-item.dto';
+import { BusinessException } from 'src/common/exceptions';
 
 @Injectable()
 export class TodoItemService {
@@ -15,9 +16,13 @@ export class TodoItemService {
   ) { }
 
   async create(createTodoItemDto: CreateTodoItemDto, userId: number) {
+    console.log('BusinessException 1')
     const user = await this.usersService.findOne(userId);
+    console.log('BusinessException 12')
     if (!user) {
-      throw new NotFoundException('User not found');
+      // throw new NotFoundException('User not found');
+      console.log('BusinessException 11')
+      throw new BusinessException.throwResourceNotFound('User not found')
     }
 
     const todoItem = this.todoItemRepository.create({

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { BusinessException } from 'src/common/exceptions';
 
 @Injectable()
 export class UsersService {
@@ -24,7 +25,8 @@ export class UsersService {
   async findOne(id: number) {
     const user = await this.usersRepository.findOne({ where: { id } });
     if (!user) {
-      throw new NotFoundException(`用户ID ${id} 不存在`);
+      // throw new NotFoundException(`用户ID ${id} 不存在`);
+      throw BusinessException.throwResourceNotFound(`用户ID ${id} 不存在`)
     }
     return user;
   }

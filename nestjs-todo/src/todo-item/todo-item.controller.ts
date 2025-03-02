@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, ValidationPipe } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 import { TodoItemService } from './todo-item.service';
 import { CreateTodoItemDto } from './dto/create-todo-item.dto';
@@ -15,7 +15,7 @@ export class TodoItemController {
     @ApiBody({ type: CreateTodoItemDto, description: '待办事项创建参数' })
     @ApiResponse({ status: HttpStatus.CREATED, description: '待办事项创建成功', type: TodoItem })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: '无效的请求参数' })
-    create(@Body() createTodoItemDto: CreateTodoItemDto) {
+    create(@Body(new ValidationPipe()) createTodoItemDto: CreateTodoItemDto) {
         console.log('createTodoItemDto', createTodoItemDto)
         return this.todoItemService.create(createTodoItemDto, createTodoItemDto.userId);
     }
